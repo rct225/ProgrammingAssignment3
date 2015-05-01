@@ -30,21 +30,24 @@ rankall <- function(outcome, num = "best") {
     i <- 1
     for (state in states) {
         stateHospData <- clean[clean$State == state, ]
-        hospitals.state[i] <- state
         if (num > nrow(stateHospData) && is.numeric(num)) {
+            hospitals.state[i] <- state
             hospitals.hospital[i] <- NA
         } else if (num == "best") {
             results <- stateHospData[order(stateHospData$Outcome,
                                            stateHospData$Name),]
+            hospitals.state[i] <- state
             hospitals.hospital[i] <- results[1,1]
         } else if (num == "worst") {
             results <- stateHospData[order(-stateHospData$Outcome,
                                            stateHospData$Name),]
+            hospitals.state[i] <- state
             hospitals.hospital[i] <- results[1,1]
         } else {
             results <- stateHospData[order(stateHospData$Outcome,
                                            stateHospData$Name),]
-            hospitals.hospital[i] <- results[1,1]
+            hospitals.state[i] <- state
+            hospitals.hospital[i] <- results[num,1]
         }
         i <- i + 1
 
